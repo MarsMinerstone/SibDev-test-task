@@ -16,7 +16,7 @@ from django.utils.decorators import method_decorator
 class CSVMainView(APIView):
     def post(self, request, format=None):
         try:
-            csv_file = request.FILES['file']
+            csv_file = request.FILES['deals']
             decoded_file = csv_file.read().decode('utf-8').splitlines()
             reader = csv.DictReader(decoded_file)
             c = 0
