@@ -9,6 +9,9 @@ from .models import Deal
 
 from django.db.models import Sum, Count
 
+from django.views.decorators.cache import cache_control
+from django.utils.decorators import method_decorator
+
 
 class CSVMainView(APIView):
     def post(self, request, format=None):
@@ -41,6 +44,7 @@ class CSVMainView(APIView):
         Deal.objects.all().delete()
         return Response({'message': 'All objects deleted successfully'})
 
+    @method_decorator(cache_control(max_age=3600))
     def get(self, request, format=None):
         top_customers = Deal.objects.values('customer').annotate(
             spent_money=Sum('total')
